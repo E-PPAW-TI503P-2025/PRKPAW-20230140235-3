@@ -1,0 +1,5 @@
+![Teks Alternatif](Checkin.png "Melakukan Checkin")
+![Teks Alternatif](Checkindua.png "Melakukan Checkin Dua Kali")
+![Teks Alternatif](Checkout.png "Melakukan Checkout")
+![Teks Alternatif](Checkoutdua.png "Melakukan Checkout Dua Kali")
+![Teks Alternatif](Reports.png "Menampilkan Reports")
