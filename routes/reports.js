@@ -7,6 +7,6 @@ console.log('addUserData:', typeof addUserData);
 console.log('isAdmin:', typeof isAdmin);
 console.log('getDailyReport:', typeof reportController.getDailyReport);
 
-router.get('/daily', [addUserData, isAdmin], reportController.getDailyReport);
+router.get('/', reportController.getDailyReport);
 
 module.exports = router;
