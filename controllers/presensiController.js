@@ -1,6 +1,6 @@
 // 1. Ganti sumber data dari array ke model Sequelize
 const { Presensi } = require("../models");
-const { format } = require("date-fns-tz");
+const { format, startOfDay, endOfDay, zonedTimeToUtc } = require("date-fns-tz"); 
 const timeZone = "Asia/Jakarta";
 
 exports.CheckIn = async (req, res) => {

@@ -3,7 +3,7 @@ const { format } = require("date-fns-tz");
 const timeZone = "Asia/Jakarta";
 
 exports.CheckIn = (req, res) => {
-  const { id: userId, nama: userName } = req.user;
+  const { id: userId, nama: nama } = req.user;
   const waktuSekarang = new Date();
   const existingRecord = presensiRecords.find(
     (record) => record.userId === userId && record.checkOut === null
@@ -15,7 +15,7 @@ exports.CheckIn = (req, res) => {
   }
   const newRecord = {
     userId,
-    nama: userName,
+    nama: nama,
     checkIn: waktuSekarang,
     checkOut: null,
   };
