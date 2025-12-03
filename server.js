@@ -20,8 +20,8 @@ app.use("/api/presensi", presensiRoutes);
 app.use("/api/reports", reportRoutes);
 
 // --- PERHATIKAN: KITA PAKAI 'force: true' UNTUK MEMBERSIHKAN DATABASE ---
-db.sequelize.sync({ alter: true }).then(() => {
-    console.log(">>> DATABASE BERHASIL DI-RESET TOTAL! DATA KOTOR SUDAH HILANG. <<<");
+db.sequelize.sync({ force: true }).then(() => {
+    console.log("Drop and re-sync db.");
     
     app.listen(PORT, () => {
         console.log(`Server Backend berjalan di http://localhost:${PORT}`);
