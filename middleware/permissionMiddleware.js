@@ -1,15 +1,26 @@
-exports.addUserData = (req, res, next) => {
-    // normalize property names expected by controllers (they expect id and nama)
-    console.log('User data added');
-    req.user = { id: 123, nama: 'user karyawan', role: 'admin' };
+// middleware/permissionMiddleware.js
+const jwt = require("jsonwebtoken");
+const JWT_SECRET = process.env.JWT_SECRET || "rahasia"; // Ganti 'rahasia' sesuai .env kamu
+
+exports.authenticateToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  if (token == null) {
+    return res.status(401).json({ message: "Akses ditolak. Token tidak disediakan." });
+  }
+  jwt.verify(token, JWT_SECRET, (err, userPayload) => {
+    if (err) {
+      return res.status(403).json({ message: "Token tidak valid atau kedaluwarsa." });
+    }
+    req.user = userPayload;
     next();
+  });
 };
 
 exports.isAdmin = (req, res, next) => {
-    if (req.user && req.user.role === 'admin') {
-        console.log('Access granted: Admin');
-        next();
-    } else {
-        res.status(403).send('Access denied: Admins only');
-    }
+  if (req.user && req.user.role === "admin") {
+    next();
+  } else {
+    return res.status(403).json({ message: "Akses ditolak. Hanya untuk admin." });
+  }
 };

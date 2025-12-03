@@ -1,46 +1,40 @@
-const { Presensi } = require("../models");
+const db = require("../models");
 const { Op } = require("sequelize");
+
+const Presensi = db.Presensi || db.presensi; 
+const User = db.User || db.user;
 
 exports.getDailyReport = async (req, res) => {
   try {
-    // 1. Ambil query params baru (tanggalMulai & tanggalSelesai)
-    const { nama, tanggalMulai, tanggalSelesai } = req.query;
-    let options = { where: {} };
+    const { nama } = req.query;
+    let whereClause = {};
 
-    // 2. Filter 'nama' (Kode yang sudah ada, tidak diubah)
     if (nama) {
-      options.where.nama = {
-        [Op.like]:` %${nama}%`,
-      };
+        whereClause = {
+            [Op.or]: [ 
+                // PERHATIKAN: Pakai $User (Besar)
+                { '$User.nama$': { [Op.like]: `%${nama}%` } }
+            ]
+        };
     }
 
-    // 3. (TAMBAHAN) Filter rentang tanggal
-    if (tanggalMulai && tanggalSelesai) {
-      // Set 'startDate' ke awal hari (00:00:00)
-      const startDate = new Date(tanggalMulai);
-      startDate.setHours(0, 0, 0, 0);
-
-      // Set 'endDate' ke akhir hari (23:59:59)
-      const endDate = new Date(tanggalSelesai);
-      endDate.setHours(23, 59, 59, 999);
-
-      // Terapkan [Op.between] pada field 'checkIn'
-      // Asumsi Anda ingin memfilter berdasarkan kapan mereka check-in
-      options.where.checkIn = {
-        [Op.between]: [startDate, endDate],
-      };
-    }
-
-    // 4. Cari data dengan semua filter yang aktif
-    const records = await Presensi.findAll(options);
-
-    res.json({
-      reportDate: new Date().toLocaleDateString(),
-      data: records,
+    const reports = await Presensi.findAll({
+      where: whereClause,
+      include: [{
+        model: User, 
+        as: 'User', // <--- WAJIB HURUF BESAR (Sesuai Model Presensi tadi)
+        attributes: ['nama', 'email']
+      }],
+      order: [['tanggal', 'DESC']]
     });
+
+    res.status(200).json({
+      message: "Berhasil mengambil laporan",
+      data: reports
+    });
+
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Gagal mengambil laporan", error: error.message });
+    console.error("Error Laporan:", error);
+    res.status(500).json({ message: "Gagal: " + error.message });
   }
 };

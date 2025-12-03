@@ -1,47 +1,46 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // Definisikan relasi di sini jika ada
-      // Contoh: User.hasMany(models.Presensi, { foreignKey: 'userId' });
-    }
-  }
-  User.init({
-    nama: {
-      type: DataTypes.STRING,
+  const Presensi = sequelize.define('Presensi', {
+    userId: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true 
-      }
+    tanggal: {
+      type: DataTypes.DATEONLY,
+      defaultValue: DataTypes.NOW
     },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false
+    jamMasuk: {
+      type: DataTypes.TIME,
+      defaultValue: DataTypes.NOW
     },
-    role: {
-      type: DataTypes.ENUM('mahasiswa', 'admin'), 
-      allowNull: false,
-      defaultValue: 'mahasiswa',
-      validate: {
-        isIn: [['mahasiswa', 'admin']] 
-      }
+    jamKeluar: {
+      type: DataTypes.TIME
+    },
+    checkOut: { 
+      type: DataTypes.DATE,
+      allowNull: true
+    },
+    latitude: {
+      type: DataTypes.DECIMAL(10, 8),
+      allowNull: true
+    },
+    longitude: {
+      type: DataTypes.DECIMAL(11, 8),
+      allowNull: true
     }
   }, {
-    sequelize,
-    modelName: 'User',
+    tableName: 'presensis'
   });
-  return User;
+
+  Presensi.associate = function(models) {
+    // UBAH JADI HURUF BESAR 'User'
+    Presensi.belongsTo(models.User, {
+      foreignKey: 'userId',
+      as: 'User' 
+    });
+  };
+
+  return Presensi;
 };
