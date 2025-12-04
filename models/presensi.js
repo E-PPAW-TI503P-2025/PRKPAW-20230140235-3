@@ -19,9 +19,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TIME
     },
     checkOut: { 
-      type: DataTypes.DATE,
+      type: DataTypes.DATE, // Jika ini menyimpan timestamp lengkap
       allowNull: true
     },
+    // --- KOLOM PENTING YANG SEBELUMNYA HILANG ---
+    bukti: {
+      type: DataTypes.STRING, // Menyimpan path gambar (misal: "uploads/foto.jpg")
+      allowNull: true
+    },
+    // --------------------------------------------
     latitude: {
       type: DataTypes.DECIMAL(10, 8),
       allowNull: true
@@ -31,11 +37,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     }
   }, {
-    tableName: 'presensis'
+    tableName: 'presensis',
+    timestamps: true // Biasanya true agar ada createdAt/updatedAt
   });
 
   Presensi.associate = function(models) {
-    // UBAH JADI HURUF BESAR 'User'
     Presensi.belongsTo(models.User, {
       foreignKey: 'userId',
       as: 'User' 

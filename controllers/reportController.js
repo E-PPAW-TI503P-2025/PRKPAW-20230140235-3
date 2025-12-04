@@ -12,7 +12,6 @@ exports.getDailyReport = async (req, res) => {
     if (nama) {
         whereClause = {
             [Op.or]: [ 
-                // PERHATIKAN: Pakai $User (Besar)
                 { '$User.nama$': { [Op.like]: `%${nama}%` } }
             ]
         };
@@ -20,9 +19,21 @@ exports.getDailyReport = async (req, res) => {
 
     const reports = await Presensi.findAll({
       where: whereClause,
+      // --- PERBAIKAN: HAPUS 'status' AGAR TIDAK ERROR ---
+      attributes: [
+          'id', 
+          'userId', 
+          'tanggal', 
+          'jamMasuk', 
+          'jamKeluar', 
+          'bukti',      
+          'latitude',   
+          'longitude'
+          // 'status'  <-- INI SAYA HAPUS KARENA TIDAK ADA DI DB KAMU
+      ],
       include: [{
         model: User, 
-        as: 'User', // <--- WAJIB HURUF BESAR (Sesuai Model Presensi tadi)
+        as: 'User', 
         attributes: ['nama', 'email']
       }],
       order: [['tanggal', 'DESC']]
