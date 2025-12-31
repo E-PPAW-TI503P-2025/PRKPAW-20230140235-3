@@ -5,10 +5,10 @@ Berikut adalah dokumentasi tugas penambahan fitur Motion Detection.
 
 
 ### 1. Menu SensorLog di Navbar
-![Menu Navbar](MenuSensorLogdiNavbar.JPEG)
+![Menu Navbar](MenuSensorLogdiNavbar.jpeg)
 
 ### 2. Tampilan Halaman SensorLog
-![Halaman SensorLog](TampilanHalamanSensorLog.JPEG)
+![Halaman SensorLog](TampilanHalamanSensorLog.jpeg)
 
 ### 3. Tabel Database Sensorlog (Motion)
 ![Tabel Database Motion](TabelDatabaseSensorlog.jpeg)
