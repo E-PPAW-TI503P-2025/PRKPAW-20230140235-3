@@ -3,6 +3,7 @@
 
 Berikut adalah dokumentasi tugas penambahan fitur Motion Detection.
 
+
 ### 1. Menu SensorLog di Navbar
 ![Menu Navbar](MenuSensorLogdiNavbar.JPEG)
 
