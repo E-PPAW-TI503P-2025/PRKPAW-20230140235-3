@@ -11,4 +11,4 @@ Berikut adalah dokumentasi tugas penambahan fitur Motion Detection.
 ![Halaman SensorLog](TampilanHalamanSensorLog.JPEG)
 
 ### 3. Tabel Database Sensorlog (Motion)
-![Tabel Database Motion](TabelDatabaseSensorlog(Motion).JPEG)
+![Tabel Database Motion](TabelDatabaseSensorlog.jpeg)
